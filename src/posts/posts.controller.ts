@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { NewPostDTO } from './dto/newpost.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -16,6 +17,7 @@ export class PostsController {
         return await this.postService.todaysPostsFeed();
     }
 
+    @UseGuards(AuthGuard)
     @Post("create")
     async createPost(@Body() body: NewPostDTO) {
         await this.postService.createPost(body);

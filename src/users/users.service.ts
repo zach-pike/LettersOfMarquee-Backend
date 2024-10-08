@@ -3,7 +3,7 @@ import { User } from './schema/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { SignUpDTO } from './dto/signup.dto';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,7 @@ export class UsersService {
     async createUser(data: SignUpDTO): Promise<[boolean, string]> {
         // Username rules
         // 1. no less than 4 characters
-        // 2. no more than 10 characters
+        // 2. no more than 20 characters
         // 3. only valid english letters and numbers
         // 4. no spaces
 
@@ -39,7 +39,7 @@ export class UsersService {
 
         // Username
         if (username.length < 4) return [false, "Username Too Short (4 Character Min)"];
-        if (username.length > 10) return [false, "Username Too Long (10 Character Max)"];
+        if (username.length > 20) return [false, "Username Too Long (20 Character Max)"];
         if (!/^[a-zA-Z0-9]+$/.test(username)) return [false, "Username contains spaces or non-english characters"];
 
         // Real name
